@@ -32,10 +32,25 @@ async function run() {
     await client.db("admin").command({ ping: 1 });
    
     const reviewCollection = client.db("trasportsytem").collection("review");
+    const categoriesCollection = client.db("trasportsytem").collection("categories");
+    const cartypesCollection = client.db("trasportsytem").collection("cartypes");
 
     app.get('/review', async(req, res) => {
-      const result = await reviewCollection.find().toArray();
-      res.send(result);
+      const revresult = await reviewCollection.find().toArray();
+      res.send(revresult);
+    })
+    
+
+   
+    app.get('/categories', async(req, res) => {
+      const catresult = await categoriesCollection.find().toArray();
+      res.send(catresult);
+    })
+
+
+    app.get('/cartypes', async(req, res) => {
+      const cartypesresult = await cartypesCollection.find().toArray();
+      res.send(cartypesresult);
     })
    
    
