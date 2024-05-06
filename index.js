@@ -8,15 +8,12 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-
 app.get("/", (req, res) => {
   res.send("mental application");
 });
 
-
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@trassyes.mixiffr.mongodb.net/?retryWrites=true&w=majority&appName=trassyes`;
-
 
 const client = new MongoClient(uri, {
   serverApi: {
@@ -26,14 +23,12 @@ const client = new MongoClient(uri, {
   },
 });
 
-
-
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    //await client.db("admin").command({ ping: 1 });
 
     const reviewCollection = client.db("trasportsytem").collection("review");
     const categoriesCollection = client
@@ -51,8 +46,7 @@ async function run() {
       .collection("cardriveraccount");
     const aboutCart = client.db("trasportsytem").collection("aboutcart");
 
-
-    //  for user and admin 
+    //  for user and admin
     // crate user admin a
     app.post("/users", async (req, res) => {
       const user = req.body;
@@ -64,12 +58,12 @@ async function run() {
       const result = await userCollection.insertOne(user);
       res.send(result);
     });
-//find all users and admin
+    //find all users and admin
     app.get("/users", async (req, res) => {
       const userlists = await userCollection.find().toArray();
       res.send(userlists);
     });
-//find one user/admin 
+    //find one user/admin
     app.get("/users/:id", async (req, res) => {
       const id = req.params.id;
       console.log(id);
@@ -79,9 +73,6 @@ async function run() {
       console.log(result);
       res.send(result);
     });
-
-
-
 
     // busdriver
     app.post("/busdriveraccount", async (req, res) => {
@@ -107,8 +98,6 @@ async function run() {
       res.send(result);
     });
 
-
-
     // cardriver
     app.post("/cardriveraccount", async (req, res) => {
       const cardriver = req.body;
@@ -126,13 +115,18 @@ async function run() {
       res.send(cardriverlist);
     });
 
+    app.get("/cardriveraccount/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: id };
+      const result = await carDriverCollection.findOne(query);
+      res.send(result);
+    });
 
-    // car items types 
+    // car items types
     app.get("/cartypes", async (req, res) => {
       const cartypesresult = await cartypesCollection.find().toArray();
       res.send(cartypesresult);
     });
-
 
     // service category
     app.get("/categories", async (req, res) => {
@@ -140,8 +134,7 @@ async function run() {
       res.send(catresult);
     });
 
-
-    // all reviews 
+    // all reviews
     app.get("/review", async (req, res) => {
       const revresult = await reviewCollection.find().toArray();
       res.send(revresult);
@@ -153,7 +146,7 @@ async function run() {
       res.send(aboutc);
     });
 
-    console.log("connected to MongoDB!");
+    // console.log("connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
     //await client.close();
