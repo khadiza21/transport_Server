@@ -9,7 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("mental application");
+  res.send("sad application");
 });
 
 const { MongoClient, ServerApiVersion } = require("mongodb");
